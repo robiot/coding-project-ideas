@@ -1,2 +1,2 @@
-# coding-project-ideas
+# Coding Project Ideas
 For cloadflare developer challange
