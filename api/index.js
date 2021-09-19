@@ -13,6 +13,7 @@ router.get("/", () => {
 /*
 This route demonstrates path parameters, allowing you to extract fragments from the request
 URL.
+
 Try visit /example/hello and see the response.
 */
 router.get("/example/:text", ({ params }) => {
@@ -35,8 +36,11 @@ router.get("/example/:text", ({ params }) => {
 
 /*
 This shows a different HTTP method, a POST.
+
 Try send a POST request using curl or another tool.
+
 Try the below curl command to send JSON:
+
 $ curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
 */
 router.post("/post", async request => {
@@ -64,6 +68,7 @@ router.post("/post", async request => {
 /*
 This is the last route we define, it will match anything that hasn't hit a route we've defined
 above, therefore it's useful as a 404 (and avoids us hitting worker exceptions, so make sure to include it!).
+
 Visit any page that doesn't exist (e.g. /foobar) to see it in action.
 */
 router.all("*", () => new Response("404, not found!", { status: 404 }))
