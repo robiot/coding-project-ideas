@@ -1,11 +1,10 @@
 import React from "react";
 import Link from "next/link";
 
-export function Button({ children, href, ...props }: {children, href: string} & React.HTMLAttributes <HTMLDivElement>) {
-    props.className += " py-2 px-5 rounded-md cursor-pointer";
+export function Button({ children, href}: {children, href: string}) {
     return (
-        <Link href={ href }>
-            <div {...props} >{ children }</div>
+        <Link href={ href } passHref>
+            <div className="py-2 px-5 rounded-md cursor-pointer bg-blue-500 hover:bg-blue-600" >{ children }</div>
         </Link>
     )
 }
