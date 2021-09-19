@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function Nav() {
+    /* Nice */
     const [data, setData] = useState("");
     useEffect(() => {
         fetch("https://api.robiot.workers.dev/").then(res => res.text()).then(setData)
