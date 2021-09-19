@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "all" : "next build && next start"
+    "all": "next build && next start"
   },
   "dependencies": {
     "next": "11.1.2",
@@ -17,10 +17,13 @@
     "tailwindcss-container-sizes": "^1.0.2"
   },
   "devDependencies": {
+    "@types/node": "^16.9.2",
+    "@types/react": "^17.0.21",
     "autoprefixer": "^10.3.4",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.15"
+    "tailwindcss": "^2.2.15",
+    "typescript": "^4.4.3"
   }
 }

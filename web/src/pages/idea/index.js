@@ -1,7 +1,7 @@
 export default function Idea() {
   return (
     <div>
-        Under construction
+      Under construction
     </div>
   )
 }

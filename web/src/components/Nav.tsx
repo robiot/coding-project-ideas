@@ -3,11 +3,11 @@ import Link from "next/link";
 
 export default function Nav() {
     return (
-        <div className="bg-gray-700 text-white">
+        <div className="bg-gray-800 text-white">
             <div className="flex items-center container-lg mx-auto justify-between px-4 h-16">
 
                 <Link href="/">
-                    Coding Project Ideas
+                    <a className="text-xl font-semibold">Coding Project Ideas</a>
                 </Link>
 
                 <div className="flex items-center float-right ">
