@@ -1,21 +1,12 @@
 import { Router } from 'itty-router'
 
-// Create a new router
 const router = Router()
 
-/*
-Our index route, a simple hello world.
-*/
-router.get("/", () => {
-  return new Response("Hello, world! This is the root page of your Worker template.")
-})
+// router.get("/", () => {
+//   return new Response("Hello, world! This is the root page of your Worker template.")
+// })
 
 /*
-This route demonstrates path parameters, allowing you to extract fragments from the request
-URL.
-
-Try visit /example/hello and see the response.
-*/
 router.get("/example/:text", ({ params }) => {
   // Decode text like "Hello%20world" into "Hello world"
   let input = decodeURIComponent(params.text)
@@ -32,17 +23,9 @@ router.get("/example/:text", ({ params }) => {
       "Content-Type": "text/html"
     }
   })
-})
+})*/
 
 /*
-This shows a different HTTP method, a POST.
-
-Try send a POST request using curl or another tool.
-
-Try the below curl command to send JSON:
-
-$ curl -X POST <worker> -H "Content-Type: application/json" -d '{"abc": "def"}'
-*/
 router.post("/post", async request => {
   // Create a base object with some fields.
   let fields = {
@@ -64,19 +47,10 @@ router.post("/post", async request => {
     }
   })
 })
-
-/*
-This is the last route we define, it will match anything that hasn't hit a route we've defined
-above, therefore it's useful as a 404 (and avoids us hitting worker exceptions, so make sure to include it!).
-
-Visit any page that doesn't exist (e.g. /foobar) to see it in action.
 */
-router.all("*", () => new Response("404, not found!", { status: 404 }))
 
-/*
-This snippet ties our worker to the router we deifned above, all incoming requests
-are passed to the router where your routes are called and the response is sent.
-*/
+router.all("*", () => new Response("404, not found", { status: 404 }))
+
 addEventListener('fetch', (e) => {
   e.respondWith(router.handle(e.request))
 })
