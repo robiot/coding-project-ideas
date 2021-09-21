@@ -1,55 +1,56 @@
 import { Router } from 'itty-router'
-
 const router = Router()
 
-// router.get("/", () => {
-//   return new Response("Hello, world! This is the root page of your Worker template.")
-// })
 
-/*
-router.get("/example/:text", ({ params }) => {
-  // Decode text like "Hello%20world" into "Hello world"
-  let input = decodeURIComponent(params.text)
+const corsheaders = {
+  "Access-Control-Allow-Origin" : "*",
+  "Access-Control-Allow-Methods" : "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers" : "Origin, Content-Type, X-Auth-Token"
+}
 
-  // Construct a buffer from our input
-  let buffer = Buffer.from(input, "utf8")
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-  // Serialise the buffer into a base64 string
-  let base64 = buffer.toString("base64")
+function response(text, data = {}) {
+  data.headers = {...data.headers, ...corsheaders};
+  return new Response(text, data)
+}
 
-  // Return the HTML with the string to the client
-  return new Response(`<p>Base64 encoding: <code>${base64}</code></p>`, {
-    headers: {
-      "Content-Type": "text/html"
+router.post("/user/login", async request => {
+  var user;
+  var password;
+  try {
+    const content = await request.text();
+    const buffer = Buffer.from(content, "base64").toString().split(":");
+    if (buffer.length != 2) {
+      return response("Data error", {status: 401});
     }
-  })
-})*/
-
-/*
-router.post("/post", async request => {
-  // Create a base object with some fields.
-  let fields = {
-    "asn": request.cf.asn,
-    "colo": request.cf.colo
+    user = buffer[0];
+    password = buffer[1];
+  } catch (error) {
+    return response("Data error", {status: 401});
   }
 
-  // If the POST data is JSON then attach it to our response.
-  if (request.headers.get("Content-Type") === "application/json") {
-    fields["json"] = await request.json()
+
+  const data = JSON.parse(await USERS.get(user));
+  if (data === null) {
+    return response(JSON.stringify({status: "fail", message: "User or password incorrect."}))
   }
 
-  // Serialise the JSON to a string.
-  const returnData = JSON.stringify(fields, null, 2);
-
-  return new Response(returnData, {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
+  if (data.password === password) {
+    await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
+    return response(JSON.stringify({status: "success", token: data.token}))
+  } else {
+    await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
+    return response(JSON.stringify({status: "fail", message: "User or password incorrect."}))
+  }
 })
-*/
 
-router.all("*", () => new Response("404, not found", { status: 404 }))
+
+router.options("*", () => response("", {status: 200}))
+
+router.all("*", () => response("404, not found", { status: 404}))
 
 addEventListener('fetch', (e) => {
   e.respondWith(router.handle(e.request))
