@@ -6,6 +6,3 @@ workers_dev = true
 route = ""
 zone_id = ""
 compatibility_date = "2021-09-19"
-kv_namespaces = [ 
-    { binding = "USERS", preview_id = "980b194fd56545838e48cc57b0866bb0", id = "980b194fd56545838e48cc57b0866bb0" }
-]
