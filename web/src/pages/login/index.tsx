@@ -16,13 +16,13 @@ export default function Login() {
 
   useEffect(() => {
     if (token) {
-      router.push("/");
-      //window.location.href = "/";
+      //router.push("/");
+      window.location.href = "/";
     }
   }, [token]);
 
   return (
-    <div className="flex items-center justify-center h-screen -mt-16">
+    <div className="flex justify-center">
       <div className="bg-gray-800 rounded-md w-full p-10 mx-0 md:mx-40">
         <div className="text-2xl font-bold mb-5">Welcome</div>
 

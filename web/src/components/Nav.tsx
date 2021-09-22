@@ -20,10 +20,12 @@ export default function Nav() {
 
                 {/* todo: Fix refresh */}
                 {token !== null && username !== null &&
-                <div className="flex items-center float-right">
-                    <div className="rounded-full h-10 w-10 bg-purple-600"></div>
-                    <div className="ml-2 align-middle">{ username }</div>
-                </div>
+                <a href="/logout">
+                    <div className="flex items-center float-right hover:bg-gray-700 rounded-md p-1 cursor-pointer" title="Logout">
+                        <div className="rounded-full h-10 w-10 bg-purple-600"></div>
+                        <div className="ml-2 align-middle">{ username }</div>
+                    </div>
+                </a>
                 }
 
                 {token === null && username === null &&

@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { Button } from "../components/Button";
-import { Tag } from "../components/Tag";
+//import { Tag } from "../components/Tag";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
 
 
-      <div className="mt-20 mx-2">
+      <div className="mx-2">
         <div className="flex justify-end mb-4 text-white">
           <Button href="/new">New idea</Button>
         </div>
@@ -36,11 +36,11 @@ export default function Home() {
               <div className="text-2xl text-gray-100">Tic Tac Toe</div>
               <div className="text-lg text-gray-400">A simple tic tac toe game where you can play...</div>
 
-              <div className="flex flex-wrap gap-2">
+              {/* <div className="flex flex-wrap gap-2">
                 <Tag href="?tag=python">Python</Tag>
                 <Tag href="?tag=easy">Easy</Tag>
                 <Tag href="?tag=tutorial">Tutorial</Tag>
-              </div>
+              </div> */}
             </div>
             
             {/* <div className="flex justify-end items-end h-full">
