@@ -16,8 +16,8 @@ export default function Login() {
 
   useEffect(() => {
     if (token) {
-      //router.push("/");
-      window.location.href = "/";
+      router.push("/");
+      //window.location.href = "/";
     }
   }, [token]);
 

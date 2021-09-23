@@ -98,6 +98,7 @@ router.post('/idea/new', async request => {
                     voters: [],
                 })
             )
+            await sleep(1000);
             return response(id)
         }
         return response('', { status: 401 })
@@ -106,8 +107,44 @@ router.post('/idea/new', async request => {
     }
 })
 
+
+var last;
+var lastfull;
+async function setLast() {
+    last = await IDEAS.list();
+    const keys = JSON.parse(JSON.stringify(last)).keys
+    for (var i in keys) {
+        const key = keys[i];
+        const data = await IDEAS.get(key.name);
+        if (data === null) {
+            return response('', { status: 401 })
+        }
+        key["value"] = data
+        await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
+    }
+    lastfull = keys;
+}
+setLast()
+
 router.get('/idea/list', async request => {
-  return response( JSON.stringify(JSON.parse(JSON.stringify(await IDEAS.list())).keys, null, 2) );
+    const ideas = await IDEAS.list();
+    if (ideas === last) {
+        console.log("last");
+        return response(JSON.stringify(lastfull, null, 2));
+    }
+
+    const keys = JSON.parse(JSON.stringify(ideas)).keys
+    for (var i in keys) {
+        const key = keys[i];
+        const data = await IDEAS.get(key.name);
+        if (data === null) {
+            return response('', { status: 401 })
+        }
+        key["value"] = data
+        await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
+    }
+
+    return response(JSON.stringify(keys, null, 2))
 })
 
 router.options('*', () => response('', { status: 200 }))

@@ -2,9 +2,27 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { Button } from "../components/Button";
+import { useState, useEffect } from "react";
 //import { Tag } from "../components/Tag";
 
+async function fetchIdeas() {
+  console.log("sus");
+  const res = await fetch(
+    "https://api.robiot.workers.dev/idea/list",
+    {
+      method: "GET",
+    }
+  );
+  return await res.json()
+}
+
 export default function Home() {
+  // const [ideas, setIdeas] = useState([]);
+  // useEffect(() => {
+  //   const ide = fetchIdeas();
+  //   setIdeas(ide);
+  // }, []);
+
   return (
     <div>
       <Head>
@@ -14,7 +32,7 @@ export default function Home() {
       </Head>
 
 
-      <div className="mx-2">
+      <div>
         <div className="flex justify-end mb-4 text-white">
           <Button href="/new">New idea</Button>
         </div>

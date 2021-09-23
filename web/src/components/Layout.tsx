@@ -5,7 +5,7 @@ export default function Layout({ children }) {
     return (
         <div>
             <Nav />
-            <div className="container-md mx-auto mt-20 mb-10">
+            <div className="container-md mx-auto mt-20 mb-10 px-2">
                 {children}
             </div>
         </div>

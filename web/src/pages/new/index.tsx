@@ -2,13 +2,15 @@ import { Input } from "../../components/Input";
 import { Submit } from "../../components/Submit";
 import { useState, useEffect } from "react";
 import { Textbox } from "../../components/Textbox";
-
+import { PulseLoader } from "react-spinners";
 import router from "next/router";
+
 
 export default function New() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -16,14 +18,16 @@ export default function New() {
       localStorage.getItem("user") == null
     ) {
       router.push("/login");
-      //window.location.href = "/";
     }
   }, []);
 
   return (
-    <div className="">
+    <div>
       <div className="bg-gray-800 rounded-md w-full p-10">
-        <div className="text-2xl font-bold mb-5">New Idea</div>
+        <div className="text-2xl font-bold mb-5 flex justify-between">
+          New Idea
+          <PulseLoader color="#FFFFFF" loading={loading} size={10} />
+        </div>
 
         <form
           onSubmit={async (event) => {
@@ -32,7 +36,7 @@ export default function New() {
             if (!title || !description || !difficulty) return;
 
             //let buffer = Buffer.from(`${username}:${password}`, "utf8");
-
+            setLoading(true)
             const res = await fetch("https://api.robiot.workers.dev/idea/new", {
               body: JSON.stringify({
                 title: title,
@@ -81,7 +85,7 @@ export default function New() {
           </p>
 
           <p className="flex flex-col gap-1">
-            <label className="text-gray-200" htmlFor="password">
+            <label className="text-gray-200" htmlFor="difficulty">
               Difficulty (1-5):
             </label>
             <Input
@@ -99,7 +103,9 @@ export default function New() {
               }}
               className="mb-10"
               type="number"
-              id="password"
+              min="1"
+              max="5"
+              id="difficulty"
             />
           </p>
 
