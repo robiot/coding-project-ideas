@@ -53,6 +53,7 @@ export default function New() {
               router.push(`/idea/${await res.text()}`);
             } else {
               alert("Error when posting");
+              setLoading(false);
             }
           }}
           autoComplete="off"
@@ -67,6 +68,7 @@ export default function New() {
                 setTitle(e.target.value);
               }}
               id="username"
+              maxLength={25}
             />
           </p>
 

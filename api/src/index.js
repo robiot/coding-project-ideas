@@ -98,7 +98,7 @@ router.post('/idea/new', async request => {
                     voters: [],
                 })
             )
-            await sleep(1000);
+            await sleep(1500);
             return response(id)
         }
         return response('', { status: 401 })
@@ -128,7 +128,7 @@ setLast()
 
 router.get('/idea/list', async request => {
     const ideas = await IDEAS.list();
-    if (ideas === last) {
+    if (ideas == last) {
         console.log("last");
         return response(JSON.stringify(lastfull, null, 2));
     }
@@ -145,6 +145,18 @@ router.get('/idea/list', async request => {
     }
 
     return response(JSON.stringify(keys, null, 2))
+})
+
+
+router.post('/idea/get', async request => {
+    try {
+        const data = await IDEAS.get(await request.text());
+        if (data === null) {
+            return response('', { status: 403 })
+        }
+        return response(JSON.stringify(data))
+    }
+    catch(_) {}
 })
 
 router.options('*', () => response('', { status: 200 }))
