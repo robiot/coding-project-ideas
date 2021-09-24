@@ -60,7 +60,7 @@ export default function Home() {
         {/* Item */}
 
         {ideas.map((idea: idea_t) => (
-          <Link href={`/idea/${idea.name}`} passHref>
+          <Link href={`/idea/${idea.name}`} key={idea.name} passHref>
             <div className="bg-gray-800 hover:bg-hoverdark rounded-md px-4 py-2 flex cursor-pointer mb-3 transition duration-150 ease-in-out">
               <div className="hidden md:flex flex-col items-center w-min mr-5">
                 <div className="text-xl">

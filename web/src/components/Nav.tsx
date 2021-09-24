@@ -5,7 +5,6 @@ import router from "next/router";
 
 export default function Nav() {
   const [username, setUsername] = useState("");
-  const [token, setToken] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -14,7 +13,7 @@ export default function Nav() {
       setUsername(localStorage.getItem("user"));
     }; set();
     router.events.on("routeChangeStart", set);
-  }, [router.events]);
+  }, []);
 
   return (
     <div className="bg-gray-800 text-white">
@@ -26,7 +25,7 @@ export default function Nav() {
         <div className={
             !loggedIn ? "hidden" : ""
         }>
-        <Link href="/logout">
+        <Link href="/logout" passHref>
           <div
             className="flex items-center float-right hover:bg-gray-700 rounded-md p-1 cursor-pointer"
             title="Logout"
