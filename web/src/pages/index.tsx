@@ -36,9 +36,9 @@ export default function Home() {
         method: "GET",
       });
       setIdeas(await res.json());
+      setLoading(false);
     }
     getData();
-    setLoading(false);
   }, []);
 
   return (
@@ -58,7 +58,6 @@ export default function Home() {
         </div>
 
         {/* Item */}
-
         {ideas.map((idea: idea_t) => (
           <Link href={`/idea/${idea.name}`} key={idea.name} passHref>
             <div className="bg-gray-800 hover:bg-hoverdark rounded-md px-4 py-2 flex cursor-pointer mb-3 transition duration-150 ease-in-out">
