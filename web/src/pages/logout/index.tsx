@@ -4,8 +4,8 @@ import { useEffect } from "react";
 export default function Logout() {
   useEffect(() => {
     localStorage.clear();
-    router.back()
-}, []);
+    router.back();
+  }, []);
 
   return <div>Logging out</div>;
 }

@@ -154,7 +154,7 @@ router.post('/idea/get', async request => {
         if (data === null) {
             return response('', { status: 403 })
         }
-        return response(JSON.stringify(data))
+        return response(JSON.stringify(data), {headers: {"Content-Type": "application/json"}})
     }
     catch(_) {}
 })

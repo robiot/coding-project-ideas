@@ -13,6 +13,11 @@ function truncate(input, input_length) {
   return input;
 }
 
+type idea_t = {
+  name: string;
+  value: string;
+};
+
 export default function Home() {
   const [ideas, setIdeas] = useState(Array);
   const [loading, setLoading] = useState(true);
@@ -24,11 +29,6 @@ export default function Home() {
   //   author: String;
   //   voters: String[];
   // };
-
-  type idea_t = {
-    name: string;
-    value: string;
-  };
 
   useEffect(() => {
     async function getData() {
@@ -59,7 +59,7 @@ export default function Home() {
 
         {/* Item */}
         {ideas.map((idea: idea_t) => (
-          <Link href={`/idea/${idea.name}`} key={idea.name} passHref>
+          <Link href={`/idea/?id=${idea.name}`} key={idea.name} passHref>
             <div className="bg-gray-800 hover:bg-hoverdark rounded-md px-4 py-2 flex cursor-pointer mb-3 transition duration-150 ease-in-out">
               <div className="hidden md:flex flex-col items-center w-min mr-5">
                 <div className="text-xl">
@@ -75,24 +75,27 @@ export default function Home() {
                 <div className="text-gray-400">Difficulty</div>
               </div>
 
-              <div className="flex flex-col">
-                <div className="text-2xl text-gray-100">
-                  {JSON.parse(idea.value).title}
-                </div>
-                <div className="text-lg text-gray-400">
-                  {truncate(JSON.parse(idea.value).description, 36)}
+              <div className="flex justify-between w-full">
+                <div className="flex-col">
+                  <div className="text-2xl text-gray-100">
+                    {JSON.parse(idea.value).title}
+                  </div>
+                  <div className="text-lg text-gray-400">
+                    {truncate(JSON.parse(idea.value).description, 36)}
+                  </div>
+
+                  {/* <div className="flex flex-wrap gap-2">
+                  <Tag href="?tag=python">Python</Tag>
+                  <Tag href="?tag=easy">Easy</Tag>
+                  <Tag href="?tag=tutorial">Tutorial</Tag>
+                </div> */}
                 </div>
 
-                {/* <div className="flex flex-wrap gap-2">
-                <Tag href="?tag=python">Python</Tag>
-                <Tag href="?tag=easy">Easy</Tag>
-                <Tag href="?tag=tutorial">Tutorial</Tag>
-              </div> */}
+                <div className="flex justify-end items-end">
+                  By:<div className="text-purple-400 ml-2">{JSON.parse(idea.value).author}</div>
+                </div>
               </div>
-
-              {/* <div className="flex justify-end items-end h-full">
-              robiot
-            </div> */}
+              
 
               {/* Author */}
             </div>
