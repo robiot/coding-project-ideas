@@ -1,9 +1,9 @@
 import router from "next/router";
-import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { PulseLoader } from "react-spinners";
 import queryString from "query-string";
-import MaterialIcon, { colorPalette } from "material-icons-react";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 type T_ideaData = {
   author: string;
@@ -16,7 +16,6 @@ type T_ideaData = {
 export default function Idea() {
   const [ideaData, setIdeaData] = useState<T_ideaData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const crouter = useRouter();
 
   useEffect(() => {
     async function getData(rid) {
@@ -24,6 +23,7 @@ export default function Idea() {
         body: rid,
         method: "POST",
       });
+      if (!res.ok) router.push("/");
       setIdeaData(JSON.parse(await res.json()));
       setLoading(false);
     }
@@ -40,23 +40,36 @@ export default function Idea() {
       {loading ? (
         <PulseLoader color="#FFFFFF" loading={loading} size={10} />
       ) : (
-        <div>
-          <div className="flex justify-center">
-            <div className="flex justify-center">
-              <div className="flex-col text-center">
-                <div className="text-white font-bold text-3xl mb-0">
-                  {ideaData.title}
-                </div>
+        <div className="flex">
+          <div className="-mt-1 flex-col justify-center items-center">
+            <div>
+              <button>
+                <ExpandLessIcon fontSize="large" />
+              </button>
+            </div>
+            <div className="text-center">
+              {ideaData.voters.length}
+            </div>
+            <div>
+              <button>
+                <ExpandMoreIcon fontSize="large" />
+              </button>
+            </div>
+          </div>
 
-                <div className="text-gray-400 ml-4">
-                  By{" "}
-                  <span className="font-semibold text-lg">
-                    {ideaData.author}
-                  </span>
-                </div>
+          <div className="ml-10">
+            <div className="flex-col items-center justify-center">
+              <div className="text-white font-bold text-3xl mb-0">
+                {ideaData.title}
+              </div>
+
+              <div className="text-gray-400">
+                By{" "}
+                <span className="font-semibold text-lg">{ideaData.author}</span>
               </div>
             </div>
           </div>
+          <div />
         </div>
       )}
     </div>

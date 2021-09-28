@@ -75,7 +75,7 @@ export default function Home() {
                 <div className="text-gray-400">Difficulty</div>
               </div>
 
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between w-full flex-wrap">
                 <div className="flex-col">
                   <div className="text-2xl text-gray-100">
                     {JSON.parse(idea.value).title}

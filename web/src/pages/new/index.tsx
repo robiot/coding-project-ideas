@@ -50,7 +50,7 @@ export default function New() {
             });
 
             if (res.status === 200) {
-              router.push(`/idea/${await res.text()}`);
+              router.push(`/idea/?id=${await res.text()}`);
             } else {
               alert("Error when posting");
               setLoading(false);
