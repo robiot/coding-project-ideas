@@ -43,15 +43,51 @@ export default function Idea() {
         <div className="flex">
           <div className="-mt-1 flex-col justify-center items-center">
             <div>
-              <button>
+              <button
+                onClick={async () => {
+                  const author = localStorage.getItem("user");
+                  const token = localStorage.getItem("token");
+                  if (author === null || token === null) {
+                    router.push("/login");
+                  }
+
+                  await fetch("https://api.robiot.workers.dev/idea/vote", {
+                    body: JSON.stringify({
+                      author: author,
+                      token: token,
+                      id: queryString.parse(location.search).id,
+                      type: "+",
+                    }),
+                    method: "POST",
+                  });
+                  router.reload();
+                }}
+              >
                 <ExpandLessIcon fontSize="large" />
               </button>
             </div>
-            <div className="text-center">
-              {ideaData.voters.length}
-            </div>
+            <div className="text-center">{ideaData.voters.length}</div>
             <div>
-              <button>
+              <button
+                onClick={async () => {
+                  const author = localStorage.getItem("user");
+                  const token = localStorage.getItem("token");
+                  if (author === null || token === null) {
+                    router.push("/login");
+                  }
+
+                  await fetch("https://api.robiot.workers.dev/idea/vote", {
+                    body: JSON.stringify({
+                      author: author,
+                      token: token,
+                      id: queryString.parse(location.search).id,
+                      type: "-",
+                    }),
+                    method: "POST",
+                  });
+                  router.reload();
+                }}
+              >
                 <ExpandMoreIcon fontSize="large" />
               </button>
             </div>

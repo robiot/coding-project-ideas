@@ -88,7 +88,7 @@ router.post('/idea/new', async request => {
             const difficulty = content.difficulty > 5 ? 5 : content.difficulty
 
             const id = `${title.toLowerCase().replace(/\s/g, '-')}-${uuidv4()}`
-            IDEAS.put(
+            await IDEAS.put(
                 id,
                 JSON.stringify({
                     title: title,
@@ -98,7 +98,7 @@ router.post('/idea/new', async request => {
                     voters: [],
                 })
             )
-            await sleep(1500);
+            await sleep(1500)
             return response(id)
         }
         return response('', { status: 401 })
@@ -107,56 +107,109 @@ router.post('/idea/new', async request => {
     }
 })
 
-
-var last;
-var lastfull;
+var last
+var lastfull
 async function setLast() {
-    last = await IDEAS.list();
+    last = await IDEAS.list()
     const keys = JSON.parse(JSON.stringify(last)).keys
     for (var i in keys) {
-        const key = keys[i];
-        const data = await IDEAS.get(key.name);
+        const key = keys[i]
+        const data = await IDEAS.get(key.name)
         if (data === null) {
             return response('', { status: 401 })
         }
-        key["value"] = data
+        key['value'] = data
         await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
     }
-    lastfull = keys;
+    lastfull = keys
 }
 setLast()
 
 router.get('/idea/list', async request => {
-    const ideas = await IDEAS.list();
+    const ideas = await IDEAS.list()
     if (ideas == last) {
-        console.log("last");
-        return response(JSON.stringify(lastfull, null, 2));
+        console.log('last')
+        return response(JSON.stringify(lastfull, null, 2))
     }
 
     const keys = JSON.parse(JSON.stringify(ideas)).keys
     for (var i in keys) {
-        const key = keys[i];
-        const data = await IDEAS.get(key.name);
+        const key = keys[i]
+        const data = await IDEAS.get(key.name)
         if (data === null) {
             return response('', { status: 401 })
         }
-        key["value"] = data
+        key['value'] = data
         await sleep(Math.floor(Math.random() * (50 - 0 + 1) + 0))
     }
 
     return response(JSON.stringify(keys, null, 2))
 })
 
-
 router.post('/idea/get', async request => {
     try {
-        const data = await IDEAS.get(await request.text());
+        const data = await IDEAS.get(await request.text())
         if (data === null) {
             return response('', { status: 403 })
         }
-        return response(JSON.stringify(data), {headers: {"Content-Type": "application/json"}})
-    }
-    catch(_) {}
+        return response(JSON.stringify(data), {
+            headers: { 'Content-Type': 'application/json' },
+        })
+    } catch (_) {}
+})
+
+router.post('/idea/vote', async request => {
+    try {
+        const content = await request.json()
+        const data = JSON.parse(await USERS.get(content.author))
+        if (data === null) {
+            return response('', { status: 401 })
+        }
+
+        if (data.token === content.token) {
+            const idea = await IDEAS.get(content.id)
+            if (idea === null) {
+                return response('', { status: 401 })
+            }
+            const idea_parsed = JSON.parse(idea)
+
+            if (content.type == '+') {
+                if (!idea_parsed['voters'].includes(content.author)) {
+                    idea_parsed['voters'].push(content.author)
+                    await IDEAS.put(
+                        content.id,
+                        JSON.stringify({
+                            title: idea_parsed.title,
+                            description: idea_parsed.description,
+                            difficulty: idea_parsed.difficulty,
+                            author: idea_parsed.author,
+                            voters: idea_parsed.voters,
+                        })
+                    )
+                }
+                return response('', { status: 200 })
+            } else if (content.type == '-') {
+                const index = idea_parsed['voters'].indexOf(content.author)
+                if (index === -1) {
+                    return response('', { status: 200 })
+                }
+                idea_parsed['voters'].splice(index, 1);
+                await IDEAS.put(
+                    content.id,
+                    JSON.stringify({
+                        title: idea_parsed.title,
+                        description: idea_parsed.description,
+                        difficulty: idea_parsed.difficulty,
+                        author: idea_parsed.author,
+                        voters: idea_parsed.voters,
+                    })
+                )
+            } else {
+                return response('', { status: 403 })
+            }
+        }
+        return response('', { status: 401 })
+    } catch (_) {}
 })
 
 router.options('*', () => response('', { status: 200 }))
