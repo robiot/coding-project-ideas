@@ -104,6 +104,10 @@ export default function Idea() {
                 <span className="font-semibold text-lg">{ideaData.author}</span>
               </div>
             </div>
+
+            <div className="mt-4 text-xl">
+              {ideaData.description}
+            </div>
           </div>
           <div />
         </div>
